@@ -1,0 +1,19 @@
+platform:
+  - x86
+  - x86_64
+
+configuration:
+  - Release
+
+clone_depth: 3
+
+install:
+  - git submodule update --init --recursive
+
+before_build:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+
+build_script:
+  - 
