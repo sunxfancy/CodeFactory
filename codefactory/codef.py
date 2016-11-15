@@ -60,7 +60,12 @@ def build(system, target, debug):
     except OSError:
         pass
     try:
-        os.chdir('build/'+system)
+        find_conan = os.access("conan.txt", os.R_OK)
+        os.chdir('build')
+        if find_conan:
+            utils.run('conan', 'install', '../..')
+        os.chdir(system)
+
         utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
         mode = debug if '-DCMAKE_BUILD_TYPE=Debug' else '-DCMAKE_BUILD_TYPE=Release'
         if target=='':
