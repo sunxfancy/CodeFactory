@@ -5,12 +5,14 @@
 # @Date:   2016-11-14
 # @Email:  sunxfancy@gmail.com
 # @Last modified by:   sxf
-# @Last modified time: 2016-11-14
+# @Last modified time: 2016-11-15
 # @License: MIT License
 
 import sys, os, shutil
 from . import utils, toolchains
 import click
+import pkg_resources
+from pkg_resources import Requirement
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
@@ -37,6 +39,9 @@ def cli(yes):
 def init(name):
     """Initializes the repository."""
     print("Repository:", name)
+    my_data = pkg_resources.resource_filename(
+        Requirement.parse('codefactory'), 'share/codefactory/templates/CPPTemplate.zip')
+    utils.Unzip(my_data, os.getcwd(), name)
 
 
 @cli.command('build', short_help='build the code with CMake')

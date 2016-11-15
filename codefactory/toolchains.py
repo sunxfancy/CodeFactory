@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# @Author: Sun Xiaofan <sxf>
+# @Date:   2016-11-15
+# @Email:  sunxfancy@gmail.com
+# @Last modified by:   sxf
+# @Last modified time: 2016-11-15
+# @License: MIT License
 
 import sys, os
 from . import utils
