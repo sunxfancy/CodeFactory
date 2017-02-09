@@ -1,21 +1,21 @@
 Code Factory
 ==================
 
-Code factory is a python tool for native code building, testing and deploying. It connect with some famous C/C++ build tools and Github platform. 
+Code Factory is a python tool for native code building, testing and deploying. It connects with some famous C/C++ build tools and Github platform. 
 
 We use tools listed below:
 
 - GCC/Clang for C/C++ compiler
 - CMake with makefile or ninja or VS or xcode
 - Google Test for testing
-- Git and Github for code version contorl
+- Git and Github for code version control
 - Travis CI and AppVeyor for all platform building and testing
 - Github Release for deploy code
-- conan for package manager
+- conan for the package manager
 
-It's an easy use tools, and can be used to get the newest build tools
+It's an easy use tool and can be used to get the newest build tools
 
-Some actions are support:
+Some actions are supported:
 
 - init: initialize the code repository
 - build: for running CMake build in one action
