@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# @Author: Sun Xiaofan <sxf>
+# @Date:   2016-11-15
+# @Email:  sunxfancy@gmail.com
+# @Last modified by:   sxf
+# @Last modified time: 2016-11-15
+# @License: MIT License
 
 import subprocess, platform, sys
 
@@ -55,3 +62,11 @@ def run_limited(*args):
         return 0, msg.split(b'\n')[0].decode(sys.stdout.encoding)
     except subprocess.CalledProcessError as e:
         return e.returncode, e.output.decode(sys.stdout.encoding)
+
+import zipfile, os
+def Unzip(target_file, output_dir, name):
+    zipfiles=zipfile.ZipFile(target_file, 'r')
+    zipfiles.extractall(os.path.join(output_dir,
+                        name))
+    zipfiles.close()
+    print("Unzip finished!")

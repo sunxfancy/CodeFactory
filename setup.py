@@ -12,7 +12,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='codefactory',   #名称
-    version='0.2.4',  #版本
+    version='0.3.1',  #版本
     description="a native code builder using git, github service and cmake", #描述
     keywords='codef code factory builder cmake github',
     author='sxf',  #作者
