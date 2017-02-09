@@ -6,7 +6,7 @@ INPUT                  = @doxy_main_page@ \
 OUTPUT_DIRECTORY       = @PROJECT_SOURCE_DIR@/build-doc
 FILE_PATTERNS          = *.h \
                          *.cpp \
-                         *.zh-cn.md
+                         *.cn.md
 
 IMAGE_PATH             = ./doc
 OUTPUT_LANGUAGE        = Chinese

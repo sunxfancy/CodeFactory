@@ -42,7 +42,7 @@ def init(name):
     my_data = pkg_resources.resource_filename(
         Requirement.parse('codefactory'), 'share/codefactory/templates/CPPTemplate.zip')
     utils.Unzip(my_data, os.getcwd(), name)
-
+    
 
 @cli.command('build', short_help='build the code with CMake')
 @click.option('-s', '--system', default='ninja',
@@ -60,10 +60,10 @@ def build(system, target, debug):
     except OSError:
         pass
     try:
-        find_conan = os.access("conan.txt", os.R_OK)
+        find_conan = os.access("conanfile.txt", os.R_OK)
         os.chdir('build')
         if find_conan:
-            utils.run('conan', 'install', '../..')
+            utils.run('conan', 'install', '..')
         os.chdir(system)
 
         utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
