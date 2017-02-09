@@ -17,7 +17,8 @@ from pkg_resources import Requirement
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('Version 0.1.0')
+    version = pkg_resources.require("codefactory")[0].version
+    click.echo('Version '+version)
     ctx.exit()
 
 yes_choose = False
@@ -42,7 +43,7 @@ def init(name):
     my_data = pkg_resources.resource_filename(
         Requirement.parse('codefactory'), 'share/codefactory/templates/CPPTemplate.zip')
     utils.Unzip(my_data, os.getcwd(), name)
-    
+
 
 @cli.command('build', short_help='build the code with CMake')
 @click.option('-s', '--system', default='ninja',
