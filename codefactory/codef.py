@@ -10,7 +10,7 @@
 
 import sys, os, shutil
 from . import utils, toolchains
-import click
+from . import click
 import pkg_resources
 from pkg_resources import Requirement
 
