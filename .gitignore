@@ -1,4 +1,7 @@
 __pycache__/
 build/
 *.egg-info/
+*.zip
 dist/
+*.pyc
+testarea/

@@ -61,7 +61,10 @@ def run_limited(*args):
         msg = subprocess.check_output(list(args))
         return 0, msg.split(b'\n')[0].decode(sys.stdout.encoding)
     except subprocess.CalledProcessError as e:
+        print("CalledProcessError")
         return e.returncode, e.output.decode(sys.stdout.encoding)
+    except FileNotFoundError as e:
+        return e.errno, e.strerror
 
 import zipfile, os
 def Unzip(target_file, output_dir, name):

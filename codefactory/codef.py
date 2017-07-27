@@ -9,7 +9,7 @@
 # @License: MIT License
 
 import sys, os, shutil
-from . import utils, toolchains
+from . import utils, toolchains, template
 from . import click
 import pkg_resources
 from pkg_resources import Requirement
@@ -43,6 +43,8 @@ def init(name):
     my_data = pkg_resources.resource_filename(
         Requirement.parse('codefactory'), 'share/codefactory/templates/CPPTemplate.zip')
     utils.Unzip(my_data, os.getcwd(), name)
+    template.findFile(os.path.join(os.getcwd(), name), {'name': name})
+
 
 
 @cli.command('build', short_help='build the code with CMake')
@@ -61,7 +63,7 @@ def build(system, target, debug):
     except OSError:
         pass
     try:
-        find_conan = os.access("conanfile.txt", os.R_OK)
+        find_conan = os.access("conanfile.txt", os.R_OK) or os.access("conanfile.py", os.R_OK)
         os.chdir('build')
         if find_conan:
             utils.run('conan', 'install', '..')
