@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # @Author: Sun Xiaofan <sxf>
@@ -22,14 +22,17 @@ class ToolChains(object):
                 self.download_tool(tool)
 
     def find_tool(self, name):
+        ws, msg = utils.run_limited(name, '--version')
+        if ws != 0:
+            sys.stdout.write("Not Found: ")
+            if name == 'ninja':
+                sys.stdout.write('ninja ')
+            sys.stdout.flush()
+            return False
         sys.stdout.write("Found: ")
         if name == 'ninja':
             sys.stdout.write('ninja ')
         sys.stdout.flush()
-        ws, msg = utils.run_limited(name, '--version')
-        if ws != 0:
-            print(name)
-            return False
         print(msg)
         return True
 
@@ -37,7 +40,6 @@ class ToolChains(object):
         # TODO: add -y config
         str = input("Would you like to download tools automaticly? [y/N]")
         if str != '' and (str[0] == 'y' or str[0] == 'Y'):
-
             return
         print("Please install", name, "manually, and add it into PATH env.")
         sys.exit(3)
