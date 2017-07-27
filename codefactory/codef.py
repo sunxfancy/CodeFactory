@@ -66,7 +66,7 @@ def build(system, target, debug):
         find_conan = os.access("conanfile.txt", os.R_OK) or os.access("conanfile.py", os.R_OK)
         os.chdir('build')
         if find_conan:
-            utils.run('conan', 'install', '..')
+            utils.run('conan', 'install', '..', '--build=missing')
         os.chdir(system)
 
         utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')

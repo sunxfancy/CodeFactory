@@ -13,7 +13,22 @@ We use tools listed below:
 - Github Release for deploy code
 - conan for the package manager
 
-It's an easy use tool and can be used to get the newest build tools
+# Install
+
+we recommand using pip to install our tool:
+
+```sh
+# using sudo in unix system
+pip install codefactory
+
+# or install in user directory
+pip install codefactory --user
+
+# test it
+codef --help
+```
+
+# Actions
 
 Some actions are supported:
 
@@ -23,3 +38,20 @@ Some actions are supported:
 - depclean: clean all with release file
 - install: install a new C/C++ package with conan
 - run: run the default executable file
+
+
+## Create a new C++ project
+
+`init` command is used to create new project, adding project as args:
+
+```sh
+codef init new_project
+cd new_project
+```
+
+
+## Build it
+
+```sh
+codef build
+```
