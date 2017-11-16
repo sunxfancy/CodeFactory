@@ -8,7 +8,7 @@
 # @Last modified time: 2016-11-15
 # @License: MIT License
 
-import os, re
+import os, re, io
 
 pattern = re.compile(r'(?P<template>{=[a-zA-Z0-9_]+=})')
 
@@ -32,9 +32,9 @@ def findFile(path, context):
             if arr[len(arr)-1] == '.tj':
                 filepath = os.path.join(root, file)
                 outpath = filepath[0:len(filepath)-3]
-                with open(filepath, "r") as f:
+                with io.open(filepath, "r", encoding="utf-8") as f:
                     data = f.read()
                     data = template(data, context)
-                    with open(outpath, "w") as o:
+                    with io.open(outpath, "w", encoding="utf-8") as o:
                         o.write(data)
                 os.remove(filepath)
