@@ -9,7 +9,8 @@
 # @License: MIT License
 
 import sys, os, shutil
-from . import utils, toolchains, template
+from . import utils, toolchains
+from . import template as tp
 from . import click
 import pkg_resources
 from pkg_resources import Requirement
@@ -36,15 +37,19 @@ def cli(yes):
     tools.check_tools()
 
 @cli.command('init', short_help='init the repo')
+@click.option('-t', '--template', default='cpp', help='Using template, (default cpp)')
 @click.argument('name')
-def init(name):
+def init(template, name):
     """Initializes the repository."""
     print("Repository:", name)
+    # my_data = os.path.dirname(os.path.realpath(__file__)) + '/templates/' + template +'.zip' # 这条作为临时测试使用
+    # my_data = pkg_resources.resource_filename(
+    #     Requirement.parse('codefactory'), 'share/codefactory/templates/'+ template +'.zip') # 这条是原版正确的，但现在wheel版有毛病，sdist又不给打包数据了，只能勉强修复
     my_data = pkg_resources.resource_filename(
-        Requirement.parse('codefactory'), 'share/codefactory/templates/CPPTemplate.zip')
+        Requirement.parse('codefactory'), '../../../share/codefactory/templates/'+ template +'.zip')
     utils.Unzip(my_data, os.getcwd(), name)
-    template.findFile(os.path.join(os.getcwd(), name), {'name': name})
-
+    tp.findFile(os.path.join(os.getcwd(), name), {'name': name})
+    utils.run('git', 'init')
 
 
 @cli.command('build', short_help='build the code with CMake')
