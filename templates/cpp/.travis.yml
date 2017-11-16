@@ -27,7 +27,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ninja; fi
 
 install:
-  - sudo bash ./.travis/install.sh
+  - bash ./.travis/install.sh
 
 script:
-  - sudo bash ./.travis/run.sh
+  - bash ./.travis/run.sh

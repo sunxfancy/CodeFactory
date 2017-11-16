@@ -18,6 +18,6 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
     pyenv activate conan
 fi
 
-pip install conan
-pip install codefactory
+sudo pip install conan
+sudo pip install codefactory
 conan user sunxfancy
