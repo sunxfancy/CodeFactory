@@ -1,10 +1,10 @@
 env:
    global:
-     - CONAN_REFERENCE: "eobject/0.1.0"
-     - CONAN_USERNAME: "sunxfancy"
-     - CONAN_LOGIN_USERNAME: "sunxfancy"
+     - CONAN_REFERENCE: "{=name=}/0.1.0"
+    #  - CONAN_USERNAME: "sunxfancy"
+    #  - CONAN_LOGIN_USERNAME: "sunxfancy"
      - CONAN_CHANNEL: "ci"
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/elite-lang/eobject"
+    #  - CONAN_UPLOAD: "https://api.bintray.com/conan/elite-lang/eobject"
      - CONAN_STABLE_BRANCH_PATTERN: "master"
 
 linux: &linux

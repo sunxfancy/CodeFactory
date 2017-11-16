@@ -5,12 +5,12 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "eobject/0.1.0"
-    CONAN_USERNAME: "sunxfancy"
-    CONAN_LOGIN_USERNAME: "sunxfancy"
+    CONAN_REFERENCE: "{=name=}/0.1.0"
+    # CONAN_USERNAME: "sunxfancy"
+    # CONAN_LOGIN_USERNAME: "sunxfancy"
     CONAN_CHANNEL: "ci"
     VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-    CONAN_UPLOAD: "https://api.bintray.com/conan/elite-lang/eobject"
+    # CONAN_UPLOAD: "https://api.bintray.com/conan/elite-lang/eobject"
     CONAN_STABLE_BRANCH_PATTERN: "master"
 
     matrix:
