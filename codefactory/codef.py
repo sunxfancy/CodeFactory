@@ -49,8 +49,8 @@ def init(template, name):
         Requirement.parse('codefactory'), '../../../share/codefactory/templates/'+ template +'.zip')
     utils.Unzip(my_data, os.getcwd(), name)
     tp.findFile(os.path.join(os.getcwd(), name), {'name': name})
-    utils.run('git', 'init')
-
+    utils.run('git', 'init', name)
+    
 
 @cli.command('build', short_help='build the code with CMake')
 @click.option('-s', '--system', default='ninja',
