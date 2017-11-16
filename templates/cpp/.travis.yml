@@ -20,13 +20,13 @@ addons:
   apt:
     packages:
       - clang
+      - ninja-build
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install clang; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then apt-get update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ninja; fi
 
-script:
+install:
   - bash ./.travis/install.sh
 
 script:

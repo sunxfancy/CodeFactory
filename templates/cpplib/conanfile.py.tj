@@ -14,12 +14,14 @@ class {=name=}Conan(ConanFile):
     exports = "*"
     
     def build(self):
+        shared = {"BUILD_SHARED_LIBS": self.options.shared}
         cmake = CMake(self)
-        self.run('cmake ../.. %s' % cmake.command_line)
-        self.run("cmake --build . %s" % cmake.build_config)
+        cmake.configure(defs=shared)
+        cmake.build()
 
     def package(self):
         self.copy("*.h", dst="include", src="include")
+        self.copy("*.hpp", dst="include", src="include")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
