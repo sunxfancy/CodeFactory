@@ -1,4 +1,4 @@
-set(InstallLocation /opt/Elite)
+set(InstallLocation /opt/{=name=})
 
 SET(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 SET(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
@@ -6,16 +6,16 @@ SET(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
 
 
 SET(CPACK_INCLUDE_TOPLEVEL_DIRECTORY ON)
-SET(CPACK_PACKAGE_NAME "elite-lang")
+SET(CPACK_PACKAGE_NAME "{=name=}")
 SET(CPACK_PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
 SET(CPACK_PACKAGE_CONTACT "sunxfancy@gmail.com")
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Elite compiler")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "short description")
 
 IF(WIN32 AND NOT UNIX)
-    SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\doc\\\\elite.ico")
+    SET(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\doc\\\\icon.ico")
     set(CPACK_GENERATOR NSIS)
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\elite.exe")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_CURRENT_SOURCE_DIR}\\\\bin\\\\{=name=}")
     set (CPACK_NSIS_MODIFY_PATH "ON")
 ELSEIF(LINUX)
    SET(CPACK_GENERATOR "STGZ;TGZ;DEB")
@@ -76,12 +76,12 @@ install(DIRECTORY
         PATTERN ".git" EXCLUDE)
 
 
-set(CPACK_COMPONENT_CORE_DISPLAY_NAME "Elite Core")
-set(CPACK_COMPONENT_CORE_DESCRIPTION "The elite compiler core system")
+set(CPACK_COMPONENT_CORE_DISPLAY_NAME "{=name=} Core")
+set(CPACK_COMPONENT_CORE_DESCRIPTION "{=name=} core system")
 set(CPACK_COMPONENT_CORE_GROUP "Application")
 
 set(CPACK_COMPONENT_TOOLCHAIN_DISPLAY_NAME "Toolchain")
-set(CPACK_COMPONENT_TOOLCHAIN_DESCRIPTION "The toolchain of LLVM platform")
+set(CPACK_COMPONENT_TOOLCHAIN_DESCRIPTION "The toolchain of {=name=}")
 set(CPACK_COMPONENT_TOOLCHAIN_GROUP "Application")
 
 set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
@@ -93,19 +93,19 @@ set(CPACK_COMPONENT_HEADER_DESCRIPTION "The header files of Cpp")
 set(CPACK_COMPONENT_HEADER_GROUP "Development")
 
 set(CPACK_COMPONENT_LIB_DISPLAY_NAME "Libraries")
-set(CPACK_COMPONENT_LIB_DESCRIPTION "The elite compiler libraries")
+set(CPACK_COMPONENT_LIB_DESCRIPTION "{=name=} libraries")
 set(CPACK_COMPONENT_LIB_GROUP "Development")
 
 set(CPACK_COMPONENT_DOC_DISPLAY_NAME "User Manual")
-set(CPACK_COMPONENT_DOC_DESCRIPTION "The Documentation of Elite")
+set(CPACK_COMPONENT_DOC_DESCRIPTION "The Documentation of {=name=}")
 set(CPACK_COMPONENT_DOC_GROUP "Documentation")
 
 set(CPACK_COMPONENT_GROUP_APPLICATION_DESCRIPTION
-    "The major part of the Elite compiler system")
+    "The major part of the {=name=} system")
 set(CPACK_COMPONENT_GROUP_DEVELOPMENT_DESCRIPTION
-    "All of the libraries you'll ever need to develop with elite")
+    "All of the libraries you'll ever need to develop with {=name=}")
 set(CPACK_COMPONENT_GROUP_DOCUMENTATION_DESCRIPTION
-    "The documentation of Elite")
+    "The documentation of {=name=}")
 
 set(CPACK_COMPONENTS_ALL core doc header runtime toolchain lib)
 
