@@ -7,3 +7,4 @@ upload:
 
 clean:
 	rm -rf *.egg-info templates/*.zip build dist
+.PHONY: build upload clean
