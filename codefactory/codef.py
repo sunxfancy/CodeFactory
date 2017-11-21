@@ -64,7 +64,7 @@ def init(template, name):
 def build(system, target, debug):
     """Build the code with selected build system, (default ninja)"""
     try:
-        os.makedirs('build/'+system)
+        os.makedirs('build/'+system +'-'+ ('debug' if debug else 'release') )
     except OSError:
         pass
     try:
@@ -72,14 +72,14 @@ def build(system, target, debug):
         os.chdir('build')
         if find_conan:
             utils.run('conan', 'install', '..', '--build=missing')
-        os.chdir(system)
+        os.chdir(system +'-'+ ('debug' if debug else 'release'))
 
-        utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
-        mode = debug if '-DCMAKE_BUILD_TYPE=Debug' else '-DCMAKE_BUILD_TYPE=Release'
+        mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
+        utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
         if target=='':
-            utils.run('cmake', mode, '--build', '.')
+            utils.run('cmake', '--build', '.')
         else:
-            utils.run('cmake', mode, '--build', '.', '--target', target)
+            utils.run('cmake', '--build', '.', '--target', target)
         print('Build Succeed')
     except:
         print('Build Failed')

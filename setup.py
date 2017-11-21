@@ -35,7 +35,7 @@ class ZipFile(_build_py):
 
 setup(
     name='codefactory',   #名称
-    version='0.6.0',  #版本
+    version='0.6.1',  #版本
     description="a native code builder using git, github service and cmake", #描述
     keywords='codef code factory builder cmake github',
     author='sunxfancy',  #作者

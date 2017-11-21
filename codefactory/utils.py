@@ -53,7 +53,7 @@ def get_allowed_buildsystem():
     return []
 
 def run(*args):
-    # print(*args)
+    print(*args)
     return subprocess.check_call(list(args))
 
 def run_limited(*args):
