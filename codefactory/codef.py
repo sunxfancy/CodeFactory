@@ -77,9 +77,9 @@ def build(system, target, debug):
         utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
         mode = debug if '-DCMAKE_BUILD_TYPE=Debug' else '-DCMAKE_BUILD_TYPE=Release'
         if target=='':
-            utils.run('cmake', '--build', '.')
+            utils.run('cmake', mode, '--build', '.')
         else:
-            utils.run('cmake', '--build', '.', '--target', target)
+            utils.run('cmake', mode, '--build', '.', '--target', target)
         print('Build Succeed')
     except:
         print('Build Failed')
