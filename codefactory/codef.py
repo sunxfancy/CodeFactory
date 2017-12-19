@@ -45,8 +45,12 @@ def init(template, name):
     # my_data = os.path.dirname(os.path.realpath(__file__)) + '/templates/' + template +'.zip' # 这条作为临时测试使用
     # my_data = pkg_resources.resource_filename(
     #     Requirement.parse('codefactory'), 'share/codefactory/templates/'+ template +'.zip') # 这条是原版正确的，但现在wheel版有毛病，sdist又不给打包数据了，只能勉强修复
-    my_data = pkg_resources.resource_filename(
-        Requirement.parse('codefactory'), '../../../share/codefactory/templates/'+ template +'.zip')
+    if (os.name == 'nt'): # 非常无奈，Windows下无论是加--user还是不加，都比unix的少了一级
+        my_data = pkg_resources.resource_filename(
+            Requirement.parse('codefactory'), '../../share/codefactory/templates/'+ template +'.zip')
+    else:
+        my_data = pkg_resources.resource_filename(
+            Requirement.parse('codefactory'), '../../../share/codefactory/templates/'+ template +'.zip')
     utils.Unzip(my_data, os.getcwd(), name)
     tp.findFile(os.path.join(os.getcwd(), name), {'name': name})
     utils.run('git', 'init', name)
