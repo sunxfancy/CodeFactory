@@ -35,7 +35,7 @@ class ZipFile(_build_py):
 
 setup(
     name='codefactory',   #名称
-    version='0.6.1',  #版本
+    version='0.6.2',  #版本
     description="a native code builder using git, github service and cmake", #描述
     keywords='codef code factory builder cmake github',
     author='sunxfancy',  #作者
@@ -44,7 +44,8 @@ setup(
     license='MIT',
     packages=find_packages(exclude=['ez_setup', 'examples', 'autotest']),
     zip_safe=True,
-    data_files=[('share/codefactory/templates/', ['templates/cpp.zip', 'templates/cpplib.zip'])], # 原版正确的
+    data_files=[(os.path.join('share', 'codefactory', 'templates'),
+                [os.path.join('templates','cpp.zip'), os.path.join('templates','cpplib.zip')])], # 原版正确的
     
     install_requires=[      #需求的第三方模块
     ],
