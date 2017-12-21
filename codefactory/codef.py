@@ -60,7 +60,7 @@ def init(template, name):
 @click.option('-s', '--system', default='ninja',
               type=click.Choice(['ninja', 'xcode', 'makefile',
               'makefile-mingw', 'makefile-msys', 'makefile-nmake',
-              'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015']))
+              'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015', 'vs2017']))
 @click.option('-t', '--target', default='',
                 help='Select the build target')
 @click.option('-d/-r', '--debug/--release', default=True,

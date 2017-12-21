@@ -39,7 +39,8 @@ def map_buildsystem(name):
            'vs2010': 'Visual Studio 10 2010',
            'vs2012': 'Visual Studio 11 2012',
            'vs2013': 'Visual Studio 12 2013',
-           'vs2015': 'Visual Studio 14 2015'}
+           'vs2015': 'Visual Studio 14 2015',
+           'vs2017': 'Visual Studio 15 2017'}
     return opt[name]
 
 def get_allowed_buildsystem():
