@@ -35,12 +35,24 @@ def map_buildsystem(name):
            'makefile-msys': 'MSYS Makefiles',
            'makefile-mingw': 'MinGW Makefiles',
            'makefile-nmake': 'NMake Makefiles',
-           'vs2008': 'Visual Studio 9 2008',
-           'vs2010': 'Visual Studio 10 2010',
-           'vs2012': 'Visual Studio 11 2012',
-           'vs2013': 'Visual Studio 12 2013',
-           'vs2015': 'Visual Studio 14 2015',
-           'vs2017': 'Visual Studio 15 2017'}
+           'vs2008': 'Visual Studio 9 2008 Win64',
+           'vs2010': 'Visual Studio 10 2010 Win64',
+           'vs2012': 'Visual Studio 11 2012 Win64',
+           'vs2013': 'Visual Studio 12 2013 Win64',
+           'vs2015': 'Visual Studio 14 2015 Win64',
+           'vs2017': 'Visual Studio 15 2017 Win64',
+           'vs2008-x86': 'Visual Studio 9 2008',
+           'vs2010-x86': 'Visual Studio 10 2010',
+           'vs2012-x86': 'Visual Studio 11 2012',
+           'vs2013-x86': 'Visual Studio 12 2013',
+           'vs2015-x86': 'Visual Studio 14 2015',
+           'vs2017-x86': 'Visual Studio 15 2017',
+           'vs2008-arm': 'Visual Studio 9 2008 ARM',
+           'vs2010-arm': 'Visual Studio 10 2010 ARM',
+           'vs2012-arm': 'Visual Studio 11 2012 ARM',
+           'vs2013-arm': 'Visual Studio 12 2013 ARM',
+           'vs2015-arm': 'Visual Studio 14 2015 ARM',
+           'vs2017-arm': 'Visual Studio 15 2017 ARM'}
     return opt[name]
 
 def get_allowed_buildsystem():
