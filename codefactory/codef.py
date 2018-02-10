@@ -60,7 +60,9 @@ def init(template, name):
 @click.option('-s', '--system', default='ninja',
               type=click.Choice(['ninja', 'xcode', 'makefile',
               'makefile-mingw', 'makefile-msys', 'makefile-nmake',
-              'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015']))
+              'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015', 'vs2017',
+              'vs2008-x86', 'vs2010-x86', 'vs2012-x86', 'vs2013-x86', 'vs2015-x86', 'vs2017-x86',
+              'vs2008-arm', 'vs2010-arm', 'vs2012-arm', 'vs2013-arm', 'vs2015-arm', 'vs2017-arm']))
 @click.option('-t', '--target', default='',
                 help='Select the build target')
 @click.option('-d/-r', '--debug/--release', default=True,
@@ -68,7 +70,10 @@ def init(template, name):
 def build(system, target, debug):
     """Build the code with selected build system, (default ninja)"""
     try:
-        os.makedirs('build/'+system +'-'+ ('debug' if debug else 'release') )
+        if system[0:2] != 'vs':
+            os.makedirs('build/'+system +'-'+ ('debug' if debug else 'release') )
+        else:
+            os.makedirs('build/'+system)
     except OSError:
         pass
     try:
@@ -76,14 +81,25 @@ def build(system, target, debug):
         os.chdir('build')
         if find_conan:
             utils.run('conan', 'install', '..', '--build=missing')
-        os.chdir(system +'-'+ ('debug' if debug else 'release'))
+        
 
-        mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
-        utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
-        if target=='':
-            utils.run('cmake', '--build', '.')
+        if system[0:2] != 'vs':
+            os.chdir(system +'-'+ ('debug' if debug else 'release'))
+            mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
+            utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
+            if target=='':
+                utils.run('cmake', '--build', '.')
+            else:
+                utils.run('cmake', '--build', '.', '--target', target)
         else:
-            utils.run('cmake', '--build', '.', '--target', target)
+            os.chdir(system)
+            mode = 'Debug' if debug else 'Release'
+            utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
+            if target=='':
+                utils.run('cmake', '--build', '.', '--config', mode)
+            else:
+                utils.run('cmake', '--build', '.', '--target', target, '--config', mode)
+        
         print('Build Succeed')
     except:
         print('Build Failed')
