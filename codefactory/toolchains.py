@@ -27,6 +27,8 @@ class ToolChains(object):
             sys.stdout.write("Not Found: ")
             if name == 'ninja':
                 sys.stdout.write('ninja ')
+                sys.stdout.flush()
+                return True
             sys.stdout.flush()
             return False
         sys.stdout.write("Found: ")
