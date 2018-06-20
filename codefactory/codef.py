@@ -79,13 +79,12 @@ def build(system, target, debug):
     try:
         find_conan = os.access("conanfile.txt", os.R_OK) or os.access("conanfile.py", os.R_OK)
         os.chdir('build')
-        if find_conan:
-            utils.run('conan', 'install', '..', '--build=missing')
         
-
         if system[0:2] != 'vs':
             os.chdir(system +'-'+ ('debug' if debug else 'release'))
             mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
+            if find_conan:
+                utils.run('conan', 'install', '../..', '--build=missing')
             utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
             if target=='':
                 utils.run('cmake', '--build', '.')
@@ -93,6 +92,8 @@ def build(system, target, debug):
                 utils.run('cmake', '--build', '.', '--target', target)
         else:
             os.chdir(system)
+            if find_conan:
+                utils.run('conan', 'install', '../..', '--build=missing')
             mode = 'Debug' if debug else 'Release'
             utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
             if target=='':
