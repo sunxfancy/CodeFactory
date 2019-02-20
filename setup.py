@@ -35,12 +35,12 @@ class ZipFile(_build_py):
 
 setup(
     name='codefactory',   #名称
-    version='0.6.4',  #版本
+    version='0.7.0',  #版本
     description="a native code builder using git, github service and cmake", #描述
     keywords='codef code factory builder cmake github',
     author='sunxfancy',  #作者
     author_email='sunxfancy@gmail.com', #作者邮箱
-    url='https://github.com/sunxfancy', #作者链接
+    url='https://github.com/sunxfancy/codefactory', #作者链接
     license='MIT',
     packages=find_packages(exclude=['ez_setup', 'examples', 'autotest']),
     zip_safe=True,

@@ -31,10 +31,10 @@ def askDefault(message, default):
 def map_buildsystem(name):
     opt = {'ninja': 'Ninja',
            'xcode': 'Xcode',
-           'makefile': 'Unix Makefiles',
-           'makefile-msys': 'MSYS Makefiles',
-           'makefile-mingw': 'MinGW Makefiles',
-           'makefile-nmake': 'NMake Makefiles',
+           'make': 'Unix Makefiles',
+           'msys': 'MSYS Makefiles',
+           'mingw': 'MinGW Makefiles',
+           'nmake': 'NMake Makefiles',
            'vs2008': 'Visual Studio 9 2008 Win64',
            'vs2010': 'Visual Studio 10 2010 Win64',
            'vs2012': 'Visual Studio 11 2012 Win64',
@@ -57,12 +57,12 @@ def map_buildsystem(name):
 
 def get_allowed_buildsystem():
     if platform.system() == 'Windows':
-        return ['ninja', 'makefile-msys', 'makefile-mingw', 'makefile-nmake',
+        return ['default', 'ninja', 'msys', 'mingw', 'nmake',
                 'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015']
     if platform.system() == 'Linux':
-        return ['ninja', 'makefile']
+        return ['default', 'ninja', 'make']
     if platform.system() == 'Darwin':
-        return ['ninja', 'xcode', 'makefile']
+        return ['default', 'ninja', 'xcode', 'make']
     return []
 
 def run(*args):

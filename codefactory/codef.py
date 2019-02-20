@@ -14,6 +14,7 @@ from . import template as tp
 from . import click
 import pkg_resources
 from pkg_resources import Requirement
+import multiprocessing
 
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
@@ -23,6 +24,7 @@ def print_version(ctx, param, value):
     ctx.exit()
 
 yes_choose = False
+default_tool = 'ninja'
 
 @click.group()
 @click.option('-y', '--yes', default=False, is_flag=True,
@@ -30,11 +32,13 @@ yes_choose = False
 @click.option('-v', '--version', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True,
               help='Show codef version')
-def cli(yes):
+def cli(yes=False):
     """A native code auto build tool."""
+    global yes_choose
+    global default_tool
     yes_choose = yes
     tools = toolchains.ToolChains()
-    tools.check_tools()
+    default_tool = tools.check_tools()
 
 @cli.command('init', short_help='init the repo')
 @click.option('-t', '--template', default='cpp', help='Using template, (default cpp)')
@@ -55,55 +59,76 @@ def init(template, name):
     tp.findFile(os.path.join(os.getcwd(), name), {'name': name})
     utils.run('git', 'init', name)
     
+def setup_sub_dir(system, debug, build_dir):
+    if system[0:2] != 'vs':
+        sub_dir = system +'-'+ ('debug' if debug else 'release')
+    else:
+        sub_dir = system
+    try:
+        os.makedirs( build_dir+'/'+sub_dir )
+    except OSError:
+        pass
+    return sub_dir
 
 @cli.command('build', short_help='build the code with CMake')
-@click.option('-s', '--system', default='ninja',
-              type=click.Choice(['ninja', 'xcode', 'makefile',
-              'makefile-mingw', 'makefile-msys', 'makefile-nmake',
-              'vs2008', 'vs2010', 'vs2012', 'vs2013', 'vs2015', 'vs2017',
-              'vs2008-x86', 'vs2010-x86', 'vs2012-x86', 'vs2013-x86', 'vs2015-x86', 'vs2017-x86',
-              'vs2008-arm', 'vs2010-arm', 'vs2012-arm', 'vs2013-arm', 'vs2015-arm', 'vs2017-arm']))
+@click.option('-s', '--system', default='default',
+                type=click.Choice(utils.get_allowed_buildsystem()),
+                help='Avaliable build system')
 @click.option('-t', '--target', default='',
                 help='Select the build target')
 @click.option('-d/-r', '--debug/--release', default=True,
-                help='Select the build target')
-def build(system, target, debug):
-    """Build the code with selected build system, (default ninja)"""
-    try:
-        if system[0:2] != 'vs':
-            os.makedirs('build/'+system +'-'+ ('debug' if debug else 'release') )
-        else:
-            os.makedirs('build/'+system)
-    except OSError:
-        pass
+                help='Select the build type')
+@click.option('-n', '--native', is_flag=True, default=False,
+                help='Using native build mode to directly call cmake build')
+@click.option('-j', '--threads', default=1,
+                help='Threads Number for parallel building')
+@click.option('-p', '--profile', default='default',
+                help='Conan profile file name (invalid in native mode)')
+def build(system, target, debug, native, threads, profile):
+    """Build the code with selected build system"""
+    if system == 'default':
+        system = default_tool
+        print("Default build system:", system)
+    build_dir = 'build'
+
     try:
         find_conan = os.access("conanfile.txt", os.R_OK) or os.access("conanfile.py", os.R_OK)
-        os.chdir('build')
-        if find_conan:
-            utils.run('conan', 'install', '..', '--build=missing')
-        
 
-        if system[0:2] != 'vs':
-            os.chdir(system +'-'+ ('debug' if debug else 'release'))
-            mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
-            utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
-            if target=='':
-                utils.run('cmake', '--build', '.')
+        if (not find_conan) or native:
+            # native build mode
+            sub_dir = setup_sub_dir(system, debug, build_dir)
+            os.chdir(build_dir)
+            os.chdir(sub_dir)
+            mt = str(threads)
+
+            if find_conan:
+                utils.run('conan', 'install', '../..', '--build=missing')
+            if system[0:2] != 'vs':
+                mode = '-DCMAKE_BUILD_TYPE=Debug' if debug else '-DCMAKE_BUILD_TYPE=Release'
+                utils.run('cmake', '-G', utils.map_buildsystem(system), mode, '../..')
+                if target=='':
+                    utils.run('cmake', '--build', '.', '-j', mt)
+                else:
+                    utils.run('cmake', '--build', '.', '--target', target, '-j', mt)
             else:
-                utils.run('cmake', '--build', '.', '--target', target)
+                # vs can change debug or release in one configure
+                mode = 'Debug' if debug else 'Release'
+                utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
+                if target=='':
+                    utils.run('cmake', '--build', '.', '--config', mode, '-j', mt)
+                else:
+                    utils.run('cmake', '--build', '.', '--target', target, '--config', mode, '-j', mt)
         else:
-            os.chdir(system)
+            # conan build
+            sub_dir = setup_sub_dir(profile, debug, build_dir)
             mode = 'Debug' if debug else 'Release'
-            utils.run('cmake', '-G', utils.map_buildsystem(system), '../..')
-            if target=='':
-                utils.run('cmake', '--build', '.', '--config', mode)
-            else:
-                utils.run('cmake', '--build', '.', '--target', target, '--config', mode)
-        
-        print('Build Succeed')
-    except:
-        print('Build Failed')
+            utils.run('conan', 'install', '.', '-if', build_dir+'/'+sub_dir, '-pr', profile, '-s', 'build_type='+mode, '--build=missing')
+            utils.run('conan', 'build', '.', '-bf', build_dir+'/'+sub_dir)
 
+        print('Build Succeed')
+    except Exception as ex:
+        print('Build Failed')
+        # print(ex)
 
 @cli.command('clean', short_help='clean middle files in the repo')
 def clean():
@@ -123,4 +148,4 @@ def depclean():
     shutil.rmtree('build')
 
 if __name__ == "__main__":
-   cli()
+    cli()

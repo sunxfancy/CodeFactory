@@ -12,6 +12,12 @@ SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "1")
 SET(VERSION_PATCH "0")
 
+# 默认构建Release模式
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to 'Release' as none was specified.")
+    SET (CMAKE_BUILD_TYPE Release) 
+endif()
+
 include_directories(src include)
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
